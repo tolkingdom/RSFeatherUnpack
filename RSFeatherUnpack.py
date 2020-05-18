@@ -222,50 +222,57 @@ def calibrate():
 
 
 def openstore():
-    while matchtooltip('img/talk.png') == False:
-        x,y = colormatch((94,255,112))
-        humanmovexy(x,y)
-        time.sleep(uniform(0.05,0.1))
-    humanrclick()
-    time.sleep(uniform(0.08,0.2))
-    humanmoveobj(imgmatchscreen('img/trade.png',region1=gamewindow),safe='yes')
-    time.sleep(uniform(0.08,0.2))
-    humanclick()
-    time.sleep(uniform(0.08,0.2))
-    while len(list(imgmatchscreenall('img/instore.png',region1=(gamewindow),threshold=0.60))) == 0:
-        time.sleep(0.1)
+    try:
+        while matchtooltip('img/talk.png') == False:
+            x,y = colormatch((94,255,112))
+            humanmovexy(x,y)
+            time.sleep(uniform(0.05,0.1))
+        humanrclick()
+        time.sleep(uniform(0.08,0.2))
+        humanmoveobj(imgmatchscreen('img/trade.png',region1=gamewindow),safe='yes')
+        time.sleep(uniform(0.08,0.2))
+        humanclick()
+        time.sleep(uniform(0.08,0.2))
+        while len(list(imgmatchscreenall('img/instore.png',region1=(gamewindow),threshold=0.60))) == 0:
+            time.sleep(0.1)
+    except:
+        print("openstore() failed")
 
 def buy():
-    humanmoveobj(imgmatchscreen('img/pack.png',region1=gamewindow))
-    time.sleep(uniform(0.08,0.2))
-    humanrclick()
-    time.sleep(uniform(0.08,0.2))
-    humanmoveobj(imgmatchscreen('img/buy10.png',region1=gamewindow),safe='yes')
-    time.sleep(uniform(0.08,0.2))
-    humanclick()
-    time.sleep(uniform(0.08,0.2))
-    humanmoveobj(imgmatchscreen('img/x.png',region1=gamewindow))
-    time.sleep(uniform(0.08,0.2))
-    humanclick()
+    try:
+        humanmoveobj(imgmatchscreen('img/pack.png',region1=gamewindow))
+        time.sleep(uniform(0.08,0.2))
+        humanrclick()
+        time.sleep(uniform(0.08,0.2))
+        humanmoveobj(imgmatchscreen('img/buy10.png',region1=gamewindow),safe='yes')
+        time.sleep(uniform(0.08,0.2))
+        humanclick()
+        time.sleep(uniform(0.08,0.2))
+        humanmoveobj(imgmatchscreen('img/x.png',region1=gamewindow))
+        time.sleep(uniform(0.08,0.2))
+        humanclick()
+    except:
+        print("buy() failed")
 
 def unpack():
     global profit
     try:
-        while matchtooltip('open.png') == False:
-            humanmoveobj(imgmatchscreen('img/pack.png',region1=inventory))
-            time.sleep(uniform(0.08,0.2))
-        humanclick()
-        while len(list(imgmatchscreenall('img/pack.png',region1=(inventory),threshold=0.60))) != 0:
-            time.sleep(0.1)
-            x,y = colormatch((94,255,112))
-            humanmovexy(x,y)
-        profit +=1000
+        try:
+            while matchtooltip('img/open.png') == False:
+                humanmoveobj(imgmatchscreen('img/pack.png',region1=inventory))
+                time.sleep(uniform(0.08,0.2))
+            humanclick()
+            while len(list(imgmatchscreenall('img/pack.png',region1=(inventory),threshold=0.60))) != 0:
+                time.sleep(0.1)
+                x,y = colormatch((94,255,112))
+                humanmovexy(x,y)
+            profit +=1000
+        except:
+            print("Ran out of gold, quitting")
+            print("ran for " + str(time.time() - start))
+            quit()
     except:
-        print("Ran out of gold, quitting")
-        print("ran for " + str(time.time() - start))
-        quit()
-
-
+        print("buy() failed")
 
 #Global variables and calibrating mouse pos
 x0,y0 = calibrate()
@@ -288,7 +295,8 @@ while True:
     openstore()
     buy()
     unpack()
+    sectime = time.time() - start
     runtime = time.localtime(time.time() - start)
-    gphr = (3600/runtime)*profit
+    gphr = int((3600/sectime)*profit)
     print("You have made " + str(profit) + "gp in " + time.strftime("%H:%M:%S", runtime))
     print(" Thats " + str(gphr) + "gp p/hr!")
