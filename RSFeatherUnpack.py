@@ -249,9 +249,11 @@ def buy():
     humanclick()
 
 def unpack():
+    global profit
     try:
-        humanmoveobj(imgmatchscreen('img/pack.png',region1=inventory))
-        time.sleep(uniform(0.08,0.2))
+        while matchtooltip('open.png') == False:
+            humanmoveobj(imgmatchscreen('img/pack.png',region1=inventory))
+            time.sleep(uniform(0.08,0.2))
         humanclick()
         while len(list(imgmatchscreenall('img/pack.png',region1=(inventory),threshold=0.60))) != 0:
             time.sleep(0.1)
@@ -286,5 +288,7 @@ while True:
     openstore()
     buy()
     unpack()
-    print(time.time() - start)
-    print(profit)
+    runtime = time.localtime(time.time() - start)
+    gphr = (3600/runtime)*profit
+    print("You have made " + str(profit) + "gp in " + time.strftime("%H:%M:%S", runtime))
+    print(" Thats " + str(gphr) + "gp p/hr!")
