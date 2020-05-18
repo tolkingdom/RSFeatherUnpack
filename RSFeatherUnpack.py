@@ -181,13 +181,13 @@ def imgmatchscreen(small, region1=None, threshold=0.7):
         return
     x,y = max_loc
     counter+=1
-    print("max val for this match was "+str(max_val))
+    #print("max val for this match was "+str(max_val))
     if region1!=None:
         x0,y0 = region1[:2]
         x=x+x0
         y=y+y0
     imgbox = x,y,w-1,h-1
-    print ("returning" + str(imgbox))
+    #print ("returning" + str(imgbox))
     return imgbox
 
 
@@ -257,6 +257,7 @@ def unpack():
             time.sleep(0.1)
             x,y = colormatch((94,255,112))
             humanmovexy(x,y)
+        profit +=1000
     except:
         print("Ran out of gold, quitting")
         print("ran for " + str(time.time() - start))
@@ -266,6 +267,7 @@ def unpack():
 
 #Global variables and calibrating mouse pos
 x0,y0 = calibrate()
+profit = 0
 print("Calibrated to game window at: " + str((x0,y0)))
 oldmousepos = (x0,y0)
 bottomright = x0+765,y0+502
@@ -284,3 +286,5 @@ while True:
     openstore()
     buy()
     unpack()
+    print(time.time() - start)
+    print(profit)
