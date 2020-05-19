@@ -291,6 +291,10 @@ def setlabel():
     startgp = float(value)
     origgp = float(value)
 
+def killbot():
+    quit()
+
+
 top = tk.Tk()
 top.title('RSFeatherUnpack 1.0')
 top.minsize(300,100)
@@ -314,6 +318,13 @@ btn_start = tk.Button(
     height=2,
     width = 20,
     command = setlabel
+ )
+
+ btn_kill = tk.Button(
+     top,text = "Kill Process"
+     height =3
+     width = 100
+     command = killbot
  )
 
  #MIDDLE SECTIONS
@@ -403,7 +414,6 @@ def bot():
         # print("You have made " + str(profit) + "gp in " + time.strftime("%H:%M:%S", runtime))
         # print(" Thats " + str(gphr) + "gp p/hr!")
         # print("You will run out of gold in " + str(round((startgp/costph),1)) + " hours!")
-
 
 #Global variables and calibrating mouse pos
 lbl_status_right['text'] = "Initializing "
