@@ -270,8 +270,8 @@ def unpack():
                 time.sleep(0.1)
                 x,y = colormatch((94,255,112))
                 humanmovexy(x,y)
-            profit +=1000
-            startgp-=1
+            profit +=910
+            startgp-=2.09
         except:
             print("Ran out of gold, quitting")
             print("ran for " + str(time.time() - start))
@@ -288,7 +288,8 @@ def setlabel():
     entry_gp.delete(0, tk.END)
     btn_start.pack_forget()
     entry_gp.pack_forget()
-    startgp = int(value)
+    startgp = float(value)
+    origgp = float(value)
 
 top = tk.Tk()
 top.title('RSFeatherUnpack 1.0')
@@ -407,7 +408,7 @@ def bot():
 #Global variables and calibrating mouse pos
 lbl_status_right['text'] = "Initializing "
 x0,y0 = calibrate()
-profit = 0
+profit = 1
 print("Calibrated to game window at: " + str((x0,y0)))
 oldmousepos = (x0,y0)
 bottomright = x0+765,y0+502
@@ -418,12 +419,13 @@ inventory=(x0+549,y0+210,183,253)
 motionbox=(x0+300,y0,45,45)
 mapbox=(x0+568,y0+11,151,151)
 bankdep = (228,83,83),(227,82,82)
+price10 = 2090
 startgp = None #int(input("Enter starting gold in thousands: "))
-start = time.time()
-time.sleep(3)
+origgp = None
 
 while startgp == None:
     top.update()
+start = time.time()
 bot()
 
 #MAIN LOOP
