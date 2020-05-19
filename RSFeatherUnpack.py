@@ -100,36 +100,37 @@ def overshoot(x,y):
 
 #random camera movement
 def randomcameramove(steps,honly='no'):
-    for i in range (steps):
-        key = randint(1,4)
-        if honly=='yes':
-            key = randint(1,2)
-        delay = uniform(0.005,0.01)
-        hold = uniform(0.1,1.0)
-        if key == 1:
-            print('pressing left')
-            pyautogui.keyDown('left')
-            time.sleep(hold)
-            pyautogui.keyUp('left')
-            time.sleep(delay)
-        if key == 2:
-            print('pressing right')            
-            pyautogui.keyDown('right')
-            time.sleep(hold)
-            pyautogui.keyUp('right')
-            time.sleep(delay)
-        if key == 3:
-            print('pressing up')            
-            pyautogui.keyDown('up')
-            time.sleep(hold)
-            pyautogui.keyUp('up')
-            time.sleep(delay)
-        if key == 4:
-            print('pressing down')
-            pyautogui.keyDown('down')
-            time.sleep(hold)
-            pyautogui.keyUp('down')
-            time.sleep(delay)
+    if randint(1,100) >=75:
+        for i in range (steps):
+            key = randint(1,4)
+            if honly=='yes':
+                key = randint(1,2)
+            delay = uniform(0.005,0.01)
+            hold = uniform(0.1,2.0)
+            if key == 1:
+                print('pressing left')
+                pyautogui.keyDown('left')
+                time.sleep(hold)
+                pyautogui.keyUp('left')
+                time.sleep(delay)
+            if key == 2:
+                print('pressing right')            
+                pyautogui.keyDown('right')
+                time.sleep(hold)
+                pyautogui.keyUp('right')
+                time.sleep(delay)
+            if key == 3:
+                print('pressing up')            
+                pyautogui.keyDown('up')
+                time.sleep(hold)
+                pyautogui.keyUp('up')
+                time.sleep(delay)
+            if key == 4:
+                print('pressing down')
+                pyautogui.keyDown('down')
+                time.sleep(hold)
+                pyautogui.keyUp('down')
+                time.sleep(delay)
 
 
 #Returns how many packs are in your inventory
@@ -262,6 +263,7 @@ def unpack():
                 humanmoveobj(imgmatchscreen('img/pack.png',region1=inventory))
                 time.sleep(uniform(0.08,0.2))
             humanclick()
+            time.sleep(uniform(0.4,6.5))
             while len(list(imgmatchscreenall('img/pack.png',region1=(inventory),threshold=0.60))) != 0:
                 time.sleep(0.1)
                 x,y = colormatch((94,255,112))
@@ -287,16 +289,22 @@ inventory=(x0+549,y0+210,183,253)
 motionbox=(x0+300,y0,45,45)
 mapbox=(x0+568,y0+11,151,151)
 bankdep = (228,83,83),(227,82,82)
-
+startgp = input("Enter starting gold in thousands: ",)
 start = time.time()
 time.sleep(3)
 #MAIN LOOP
 while True:
     openstore()
     buy()
+    randomcameramove(honly='yes')
     unpack()
+    
+    ## Time
     sectime = time.time() - start
     runtime = time.localtime(time.time() - start)
     gphr = int((3600/sectime)*profit)
+    costph = gphr*2
+
     print("You have made " + str(profit) + "gp in " + time.strftime("%H:%M:%S", runtime))
     print(" Thats " + str(gphr) + "gp p/hr!")
+    print("You will run out of gold in " + str((startgp/costph)) + " hours!")
