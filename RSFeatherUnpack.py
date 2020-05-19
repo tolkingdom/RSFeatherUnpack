@@ -25,7 +25,7 @@ os.chdir(dirname1)
 def matchtooltip(image):
     cx,cy = pyautogui.position()
     box = (cx-120,cy-75,240,150)  
-    return len(imgmatchscreenall(image,region1=box))>0
+    return len(imgmatchscreenall(image,region1=box,threshold=0.9))>0
 
 
 #human right click
@@ -235,8 +235,10 @@ def openstore():
         time.sleep(uniform(0.08,0.2))
         humanclick()
         time.sleep(uniform(0.08,0.2))
-        while len(list(imgmatchscreenall('img/instore.png',region1=(gamewindow),threshold=0.60))) == 0:
+        increment=0
+        while len(list(imgmatchscreenall('img/instore.png',region1=(gamewindow),threshold=0.60))) == 0 and increment < 100:
             time.sleep(0.1)
+            increment+=1
     except:
         print("openstore() failed")
 
@@ -250,7 +252,7 @@ def buy():
         time.sleep(uniform(0.08,0.2))
         humanclick()
         time.sleep(uniform(0.08,0.2))
-        humanmoveobj(imgmatchscreen('img/x.png',region1=gamewindow))
+        humanmoveobj(imgmatchscreen('img/x.png',region1=gamewindow,threshold=0.95),safe=='yes')
         time.sleep(uniform(0.08,0.2))
         humanclick()
     except:
@@ -266,10 +268,14 @@ def unpack():
                 time.sleep(uniform(0.08,0.2))
             humanclick()
             time.sleep(uniform(0.4,6.5))
-            while len(list(imgmatchscreenall('img/pack.png',region1=(inventory),threshold=0.60))) != 0:
+            increment=0
+            while len(list(imgmatchscreenall('img/pack.png',region1=(inventory),threshold=0.60))) != 0 and increment < 110:
                 time.sleep(0.1)
                 x,y = colormatch((94,255,112))
                 humanmovexy(x,y)
+                increment+=1
+            if increment>=110:
+                return
             profit +=910
             startgp-=2.09
         except:
@@ -277,7 +283,7 @@ def unpack():
             print("ran for " + str(time.time() - start))
             quit()
     except:
-        print("buy() failed")
+        print("unpack() failed")
 
 def checkout():
         if len(imgmatchscreenall('img/nogp.png',region1=textnotif))>0:
