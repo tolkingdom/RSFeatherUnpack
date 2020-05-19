@@ -320,11 +320,11 @@ btn_start = tk.Button(
     command = setlabel
  )
 
- btn_kill = tk.Button(
+btn_kill = tk.Button(
      top,text = "Kill Process",
      height =3,
-     width = 100,
-     command = killbot
+     width = 14,
+     command = quit
  )
 
  #MIDDLE SECTIONS
