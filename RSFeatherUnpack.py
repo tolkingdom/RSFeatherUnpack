@@ -289,7 +289,7 @@ inventory=(x0+549,y0+210,183,253)
 motionbox=(x0+300,y0,45,45)
 mapbox=(x0+568,y0+11,151,151)
 bankdep = (228,83,83),(227,82,82)
-startgp = input("Enter starting gold in thousands: ",)
+startgp = int(input("Enter starting gold in thousands: "))
 start = time.time()
 time.sleep(3)
 #MAIN LOOP
