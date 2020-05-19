@@ -303,8 +303,8 @@ while True:
     sectime = time.time() - start
     runtime = time.localtime(time.time() - start)
     gphr = int((3600/sectime)*profit)
-    costph = gphr*2
+    costph = (gphr/1000)*2
 
     print("You have made " + str(profit) + "gp in " + time.strftime("%H:%M:%S", runtime))
     print(" Thats " + str(gphr) + "gp p/hr!")
-    print("You will run out of gold in " + str((startgp/costph)) + " hours!")
+    print("You will run out of gold in " + str(round((startgp/costph),1) + " hours!")
