@@ -8,6 +8,7 @@ import numpy
 import datetime
 import bezmouse
 import os
+import tkinter as tk
 
 from pathlib import Path
 from PIL import Image
@@ -257,6 +258,7 @@ def buy():
 
 def unpack():
     global profit
+    global startgp
     try:
         try:
             while matchtooltip('img/open.png') == False:
@@ -269,6 +271,7 @@ def unpack():
                 x,y = colormatch((94,255,112))
                 humanmovexy(x,y)
             profit +=1000
+            startgp-=1
         except:
             print("Ran out of gold, quitting")
             print("ran for " + str(time.time() - start))
@@ -276,7 +279,133 @@ def unpack():
     except:
         print("buy() failed")
 
+
+############## G U I  ################
+def setlabel():
+    global startgp
+    value = entry_gp.get()
+    lbl_start['text'] = value + "k GP"
+    entry_gp.delete(0, tk.END)
+    btn_start.pack_forget()
+    entry_gp.pack_forget()
+    startgp = int(value)
+
+top = tk.Tk()
+top.title('RSFeatherUnpack 1.0')
+top.minsize(300,100)
+
+
+#TOP SECTION
+frmleft = tk.Frame(top)
+frmright = tk.Frame(top)
+
+lbl_start = tk.Label(
+    top, text="Enter GP in thousands"
+
+)
+
+entry_gp = tk.Entry(
+    
+)
+
+btn_start = tk.Button(
+    top,text ="START",
+    height=2,
+    width = 20,
+    command = setlabel
+ )
+
+ #MIDDLE SECTIONS
+lbl_status_left = tk.Label(
+    frmleft,text = " Status:"
+)
+
+lbl_status_right = tk.Label(
+    frmright,text= "Value "
+)
+
+lbl_profit_left = tk.Label(
+    frmleft,text = " Total Profit:"
+)
+lbl_profit_right = tk.Label(
+    frmright,text = "XXXX GP "
+)
+
+
+lbl_gphr_left = tk.Label(
+    frmleft,text = " GP/hr:"
+)
+lbl_gphr_right = tk.Label(
+    frmright,text = "XXXX GP "
+)
+
+lbl_timeleft_left = tk.Label(
+    frmleft,text = " Time Left:"
+)
+lbl_timeleft_right = tk.Label(
+    frmright,text = "00:00:00 "
+)
+
+#BOTTOM
+lbl_perc = tk.Label(
+    text='0%s complete' % "%"
+)
+
+
+
+
+lbl_start.pack()
+entry_gp.pack()
+entry_gp.insert(0,"ex. 5000 = 5m")
+btn_start.pack()
+
+
+frmleft.pack(side=tk.LEFT)
+lbl_status_left.pack()
+lbl_profit_left.pack()
+lbl_gphr_left.pack()
+lbl_timeleft_left.pack()
+
+frmright.pack(side=tk.RIGHT)
+lbl_status_right.pack()
+lbl_profit_right.pack()
+lbl_gphr_right.pack()
+lbl_timeleft_right.pack()
+lbl_perc.pack(side=tk.BOTTOM)
+
+################ G U I ###################
+
+#MAIN LOOP
+def bot():
+    while True:
+        lbl_status_right["text"] = "Opening Store "
+        top.update()
+        openstore()
+        lbl_status_right["text"] = "Buying Feathers "
+        top.update()
+        buy()
+        randomcameramove(steps=randint(1,3),honly='yes')
+        lbl_status_right["text"] = "Unpacking Feathers "
+        top.update()
+        unpack()
+        top.update()
+        ## Time
+        sectime = time.time() - start
+        runtime = time.gmtime(time.time() - start)
+        gphr = int((3600/sectime)*profit)
+        costph = (gphr/1000)*2
+
+        lbl_profit_right['text'] = "%sgp " % profit
+        lbl_gphr_right['text'] = str(gphr) + " "
+        lbl_timeleft_right['text'] = time.strftime('%H:%M:%S', time.gmtime(((startgp/costph)*3600)))
+        lbl_perc['text'] = str(round(((sectime / (sectime+((startgp/costph)*3600)))*100),2)) + '%' + " complete"
+        # print("You have made " + str(profit) + "gp in " + time.strftime("%H:%M:%S", runtime))
+        # print(" Thats " + str(gphr) + "gp p/hr!")
+        # print("You will run out of gold in " + str(round((startgp/costph),1)) + " hours!")
+
+
 #Global variables and calibrating mouse pos
+lbl_status_right['text'] = "Initializing "
 x0,y0 = calibrate()
 profit = 0
 print("Calibrated to game window at: " + str((x0,y0)))
@@ -289,22 +418,12 @@ inventory=(x0+549,y0+210,183,253)
 motionbox=(x0+300,y0,45,45)
 mapbox=(x0+568,y0+11,151,151)
 bankdep = (228,83,83),(227,82,82)
-startgp = int(input("Enter starting gold in thousands: "))
+startgp = None #int(input("Enter starting gold in thousands: "))
 start = time.time()
 time.sleep(3)
-#MAIN LOOP
-while True:
-    openstore()
-    buy()
-    randomcameramove(steps=randint(1,3),honly='yes')
-    unpack()
-    
-    ## Time
-    sectime = time.time() - start
-    runtime = time.gmtime(time.time() - start)
-    gphr = int((3600/sectime)*profit)
-    costph = (gphr/1000)*2
 
-    print("You have made " + str(profit) + "gp in " + time.strftime("%H:%M:%S", runtime))
-    print(" Thats " + str(gphr) + "gp p/hr!")
-    print("You will run out of gold in " + str(round((startgp/costph),1)) + " hours!")
+while startgp == None:
+    top.update()
+bot()
+
+#MAIN LOOP
