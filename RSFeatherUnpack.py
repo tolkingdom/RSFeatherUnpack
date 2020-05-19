@@ -279,6 +279,11 @@ def unpack():
     except:
         print("buy() failed")
 
+def checkout():
+        if len(imgmatchscreenall('img/nogp.png',region1=textnotif))>0:
+            print("Out of gold, quitting")
+            time.sleep(2)
+            quit()
 
 ############## G U I  ################
 def setlabel():
@@ -292,7 +297,7 @@ def setlabel():
     origgp = float(value)
 
 def killbot():
-    quit()
+    os._exit(1)
 
 
 top = tk.Tk()
@@ -324,7 +329,7 @@ btn_kill = tk.Button(
      top,text = "Kill Process",
      height =3,
      width = 14,
-     command = quit
+     command = killbot
  )
 
  #MIDDLE SECTIONS
@@ -398,6 +403,7 @@ def bot():
         lbl_status_right["text"] = "Buying Feathers "
         top.update()
         buy()
+        checkout()
         randomcameramove(steps=randint(1,3),honly='yes')
         lbl_status_right["text"] = "Unpacking Feathers "
         top.update()
