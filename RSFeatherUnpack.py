@@ -100,7 +100,7 @@ def overshoot(x,y):
 
 #random camera movement
 def randomcameramove(steps,honly='no'):
-    if randint(1,100) >=75:
+    if randint(1,100) >=90:
         for i in range (steps):
             key = randint(1,4)
             if honly=='yes':
@@ -296,7 +296,7 @@ time.sleep(3)
 while True:
     openstore()
     buy()
-    randomcameramove(honly='yes')
+    randomcameramove(steps=randint(1,3),honly='yes')
     unpack()
     
     ## Time
