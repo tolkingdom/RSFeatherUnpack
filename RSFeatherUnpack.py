@@ -321,9 +321,9 @@ btn_start = tk.Button(
  )
 
  btn_kill = tk.Button(
-     top,text = "Kill Process"
-     height =3
-     width = 100
+     top,text = "Kill Process",
+     height =3,
+     width = 100,
      command = killbot
  )
 
@@ -384,6 +384,8 @@ lbl_profit_right.pack()
 lbl_gphr_right.pack()
 lbl_timeleft_right.pack()
 lbl_perc.pack(side=tk.BOTTOM)
+
+btn_kill.pack(side=tk.BOTTOM)
 
 ################ G U I ###################
 
