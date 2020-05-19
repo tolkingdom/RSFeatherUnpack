@@ -252,7 +252,7 @@ def buy():
         time.sleep(uniform(0.08,0.2))
         humanclick()
         time.sleep(uniform(0.08,0.2))
-        humanmoveobj(imgmatchscreen('img/x.png',region1=gamewindow,threshold=0.95),safe=='yes')
+        humanmoveobj(imgmatchscreen('img/x.png',region1=gamewindow,threshold=0.95),safe='yes')
         time.sleep(uniform(0.08,0.2))
         humanclick()
     except:
