@@ -17,6 +17,57 @@ dirname1 = os.path.dirname(os.path.abspath(__file__))
 print(dirname1)
 os.chdir(dirname1)
 
+msglist = ["/this takes so long ",
+        "/i dont know if i like this method :/",
+        "/is anyone at 20mil gold yet? ",
+        "/hey get on discord ",
+        "/join the discord ",
+        "/im on discord ",
+        "/go on discord so we can talk ",
+        "/i am making a lot i think ",
+        "/does anyone know a better way? ",
+        "/gotta get food soon ",
+        "/probobly made atleast 1m by now ",
+        "/do you guys get bored playing all day? ",
+        "/Ben get on the discord ",
+        "/late reply but yes ",
+        "/no not really ",
+        "/half talking in chat half discord huh xD? ",
+        "/these feathers dont really sell tho :p ",
+        "/when do we do another method? ",
+        "/this is boring... ",
+        "/i fell like a machine xD ",
+        "/all i do is grind this all day ",
+        "/why did i have to lose my job... ",
+        "/what is the purpose of playing anymore? ",
+        "/so annoying ",
+        "/hey get onto discord!!!!! ",
+        "/GET ON DISCORD ",
+        "/jeremy diod you make an ironman? ",
+        "/so we save up money then skill magic? ",
+        "/wow.... ",
+        "/i can't beleive you anymore lol ",
+        "/this is unreal ",
+        "/you guys are such losers hahahaa ",
+        "/hahahah wow ",
+        "/my mic broke ",
+        "/no my mic broke the other day ",
+        "/why? ",
+        "/what do you have to say huh? ",
+        "/the other day ther was 4 ppl here ",
+        "/lets go to GE soon? ",
+        "/yeah when school is back up LOL ",
+        "/why is Ben not on discord? ",
+        "/Idk anymore ",
+        "/hahahahahaaa wtf ",
+        "/yoooooooo for real? ",
+        "/I DID IT ",
+        "/lolololol check what i posted on discord ",
+        "/whoopdie doo! ",
+        "/have you seen the movie the machinist? ",
+        "/whats the plan tomorrow?",
+        "/idk ",
+        "/i dont kno "]
 
 
 
@@ -48,31 +99,34 @@ def humanclick():
 
 
 #move to x,y coorinates
-def humanmovexy(x,y,safe='no',speed=3,sleep=0.0025):
+def humanmovexy(x,y,safe='no',speed=1,sleep=0.0025):
     try:
         if (safe=='no'):
             overshoot(x,y)
         sleep = uniform(0.0010,0.0025)
         bezmouse.go((x,y),sleep=sleep,speed=speed)
         time.sleep(uniform(0.01,0.03))
-    except:
+    except Exception as e:
+        print(e)
         print("Move failed")
         return
 
 
 
 #move to (x,y,w,h) object
-def humanmoveobj(obj, safe='no',speed=2,sleep=0.0025):
+def humanmoveobj(obj, safe='no',speed=1,sleep=0.0025):
     sleep = uniform(0.0018,0.0032)
     x = randint(obj[0], obj[0]+obj[2]-1)
     y = randint(obj[1], obj[1]+obj[3]-1)
     time.sleep(uniform(0.01,0.02))
     
     if safe=='no':
+        #if randint(1,100)<=50:
+            #bezmouse.go((randint(client[0],client[2])),(randint(client[1],client[3])))
         overshoot(x,y)
-        bezmouse.go((x,y),sleep=sleep,speed=speed)
+        bezmouse.go((x,y),speed=speed,sleep=uniform(sleep-0.0005,sleep+0.0005))
     elif safe=='yes':
-        bezmouse.go((x,y),deviation=10,speed=speed,sleep=sleep)
+        bezmouse.go((x,y),deviation=(12),speed=speed,sleep=uniform(sleep-0.0005,sleep+0.0005))
     time.sleep(uniform(0.01,0.03))
     # x2,y2 = pyautogui.position()
     # if  x+y != x2+y2:
@@ -94,9 +148,9 @@ def overshoot(x,y):
         ydir = 1
     else:
         ydir = -1
-    x2=randint(10,25)
-    y2=randint(10,25)
-    bezmouse.go(((xdir*x2)+x,(ydir*y2)+y),sleep=sleep)
+    x2=randint(2,45)
+    y2=randint(2,25)
+    bezmouse.go(((xdir*x2)+x,(ydir*y2)+y),sleep=sleep,speed=(randint(1,2)))
 
 
 #random camera movement
@@ -141,6 +195,7 @@ def packcount():
 #Hops to the next world
 def worldhop():
     print("Hopping worlds")
+    time.sleep(uniform(0.5,1.2))
     pyautogui.hotkey("ctrl","shift","right")
     time.sleep(10.0)
     pyautogui.press("esc")
@@ -207,7 +262,8 @@ def colormatch(color):
                 x=x+gamewindow[0]
                 y=y+gamewindow[1]
                 return x,y
-    except:
+    except Exception as e:
+        print(e)
         print("No color found")
         return None
 
@@ -230,33 +286,35 @@ def openstore():
             humanmovexy(x,y)
             time.sleep(uniform(0.05,0.1))
         humanrclick()
-        time.sleep(uniform(0.08,0.2))
-        humanmoveobj(imgmatchscreen('img/trade.png',region1=gamewindow),safe='yes')
-        time.sleep(uniform(0.08,0.2))
+        time.sleep(uniform(0.08,0.4))
+        humanmoveobj(imgmatchscreen('img/trade.png',region1=client,threshold=0.8),safe='yes')
+        time.sleep(uniform(0.08,0.45))
         humanclick()
-        time.sleep(uniform(0.08,0.2))
+        time.sleep(uniform(0.08,0.38))
         increment=0
-        while len(list(imgmatchscreenall('img/instore.png',region1=(gamewindow),threshold=0.60))) == 0 and increment < 100:
+        while len(list(imgmatchscreenall('img/instore.png',region1=(gamewindow),threshold=0.8))) == 0 and increment < 100:
             time.sleep(0.1)
             increment+=1
-    except:
+    except Exception as e:
+        print (e)
         print("openstore() failed")
 
 def buy():
-    try:
-        humanmoveobj(imgmatchscreen('img/pack.png',region1=gamewindow))
-        time.sleep(uniform(0.08,0.2))
+    #try:
+        humanmoveobj(imgmatchscreen('img/pack.png',region1=gamewindow,threshold=0.8))
+        time.sleep(uniform(0.07,0.27))
         humanrclick()
-        time.sleep(uniform(0.08,0.2))
-        humanmoveobj(imgmatchscreen('img/buy10.png',region1=gamewindow),safe='yes')
-        time.sleep(uniform(0.08,0.2))
+        time.sleep(uniform(0.09,0.23))
+        humanmoveobj(imgmatchscreen('img/buy10.png',region1=gamewindow,threshold=0.8),safe='yes')
+        time.sleep(uniform(0.08,0.29))
         humanclick()
-        time.sleep(uniform(0.08,0.2))
-        humanmoveobj(imgmatchscreen('img/x.png',region1=gamewindow,threshold=0.95),safe='yes')
-        time.sleep(uniform(0.08,0.2))
+        time.sleep(uniform(0.07,0.21))
+        humanmoveobj(imgmatchscreen('img/x.png',region1=gamewindow,threshold=0.8),safe='yes')
+        time.sleep(uniform(0.08,0.25))
         humanclick()
-    except:
-        print("buy() failed")
+    #except Exception as e:
+        #print(e)
+        #print("buy() failed")
 
 def unpack():
     global profit
@@ -264,38 +322,146 @@ def unpack():
     try:
         try:
             while matchtooltip('img/open.png') == False:
-                humanmoveobj(imgmatchscreen('img/pack.png',region1=inventory))
+                humanmoveobj(imgmatchscreen('img/pack.png',region1=inventory,threshold=0.8))
                 time.sleep(uniform(0.08,0.2))
             humanclick()
-            time.sleep(uniform(0.4,6.5))
+            if randint(1,100)<=3:
+                humanmovexy(10,pyautogui.size()[1]*(uniform(0.15,0.85)),speed=2)
+            time.sleep(uniform(0.4,11.5))
             increment=0
-            while len(list(imgmatchscreenall('img/pack.png',region1=(inventory),threshold=0.60))) != 0 and increment < 110:
-                time.sleep(0.1)
+            while len(list(imgmatchscreenall('img/pack.png',region1=(inventory),threshold=0.8))) != 0 and increment < 100:
+                time.sleep(uniform(0.1,1))
                 x,y = colormatch((94,255,112))
                 humanmovexy(x,y)
                 increment+=1
-            if increment>=110:
+            if increment>=100:
                 return
             profit +=910
             startgp-=2.09
-        except:
+        except Exception as e:
+            print(e)
             print("Ran out of gold, quitting")
             print("ran for " + str(time.time() - start))
             quit()
-    except:
+    except Exception as e:
+        print(e)
         print("unpack() failed")
 
 def checkout():
-        if len(imgmatchscreenall('img/nogp.png',region1=textnotif))>0:
+        if len(imgmatchscreenall('img/nogp.png',region1=textnotif,threshold=0.95))>0:
+            lbl_status_right["text"] = "Out of gold! "
+            top.update()
             print("Out of gold, quitting")
             time.sleep(2)
             quit()
+        elif len(imgmatchscreenall('img/outofstock.png',region1=textnotif,threshold=0.95))>0:
+            lbl_status_right["text"] = "Out of Stock! "
+            top.update()
+            print("Out of stock, world hop")
+            time.sleep(0.05)
+            worldhop()
+
+        
+
+def logout():
+    try:
+        lbl_status_right["text"] = "Logging Out "
+        top.update()
+        humanmoveobj(imgmatchscreen('img/logout1.png',region1=client,threshold=0.8))
+        time.sleep(uniform(0.05,0.12))
+        humanclick()
+        time.sleep(uniform(0.05,0.12))
+        if len(imgmatchscreenall('img/logoutx.png',region1=client,threshold=0.8))>0:
+            humanmoveobj(imgmatchscreen('img/logoutx.png',region1=client,threshold=0.8))
+            time.sleep(uniform(0.05,0.12))
+            humanclick()
+            time.sleep(uniform(1.5,2))
+        humanmoveobj(imgmatchscreen('img/logouttext.png',region1=client,threshold=0.8))
+        time.sleep(uniform(0.05,0.12))
+        humanclick()
+        time.sleep(uniform(0.05,0.12))
+    except Exception as e:
+        print(e)
+        pyautogui.press('esc')
+        print("logout failed")
+
+
+def login():
+    lbl_status_right["text"] = "Logging Out "
+    top.update()
+    try:
+        if len(imgmatchscreenall('img/existinguser.png',region1=client))>0:
+            time.sleep(uniform(1.0,1.5))
+            pyautogui.press('enter')
+            time.sleep(uniform(0.5,1))
+            pyautogui.write(username, interval=uniform(0.04,0.3))
+            time.sleep(uniform(0.5,1))
+            pyautogui.press('enter')
+            time.sleep(uniform(0.5,1.1))
+            pyautogui.write(password, interval=uniform(0.06,0.4))
+            time.sleep(uniform(0.5,1))
+            pyautogui.press('enter')
+            while len(imgmatchscreenall("img/clicktoplay.png",region1=client))==0:
+                time.sleep(0.1)
+            humanmoveobj(imgmatchscreen('img/clicktoplay.png',region1=client))
+            time.sleep(uniform(0.1,0.3))
+            humanclick()
+            time.sleep(uniform(4.1,5.2))
+    except Exception as e:
+        print(e)
+        print("login failed")
+
+def antiban():
+
+    #moves mouse offscreen to simulate multitasking
+    if randint(1,100)<=3:
+        lbl_status_right["text"] = "Multitask Sim"
+        top.update()
+        humanmovexy(10,pyautogui.size()[1]*(uniform(0.15,0.85)),speed=2)
+        print("simulating multitask")
+        time.sleep(uniform(0.5,10.5))
+
+    #types into clan chat
+    if randint(1,1000)<=10:
+        lbl_status_right["text"] = "Typing Message"
+        top.update()
+        pyautogui.write(msglist[randint(0,len(msglist)-1)], interval=uniform(0.04,0.1))
+        time.sleep(uniform(0.2,1))
+        pyautogui.press('enter')
+
+    #randomly afk's to simulate bathroom break + mouse move offscreen
+    if randint(1,1000)<=6:
+        lbl_status_right["text"] = "Medium Break"
+        top.update()
+        humanmovexy(10,pyautogui.size()[1]*(uniform(0.15,0.85)),speed=2)
+        print("Simulating bathroom break")
+        time.sleep(uniform(120.24,240.1))
+    
+
+    #simulates longer 12-18ish minute break and types in clan chat
+    if randint(1,1000)<=1:
+        lbl_status_right["text"] = "Long break"
+        top.update()
+        print("Simulating food break")
+        chat=randint(0,5)
+        chatlist = ["brb food","ill be back in a sec","i need to go eat","gota do something","foods done","brb"]
+        pyautogui.write(chatlist[chat], interval=uniform(0.04,0.1))
+        time.sleep(uniform(0.2,1))
+        pyautogui.press('enter')
+        logout()
+        time.sleep(uniform(720.17,1000.1))
+        login()
+    
+
+
 
 ############## G U I  ################
+start = time.time()
 def setlabel():
+
     global startgp
     value = entry_gp.get()
-    lbl_start['text'] = value + "k GP"
+    lbl_start['text'] = time.strftime("%H:%M:%S", time.gmtime(time.time()-start))
     entry_gp.delete(0, tk.END)
     btn_start.pack_forget()
     entry_gp.pack_forget()
@@ -405,16 +571,23 @@ def bot():
     while True:
         lbl_status_right["text"] = "Opening Store "
         top.update()
+        time.sleep(uniform(0.001,0.2))
         openstore()
         lbl_status_right["text"] = "Buying Feathers "
         top.update()
+        time.sleep(uniform(0.001,0.2))
         buy()
+        time.sleep(uniform(0.001,0.2))
         checkout()
         randomcameramove(steps=randint(1,3),honly='yes')
         lbl_status_right["text"] = "Unpacking Feathers "
         top.update()
+        time.sleep(uniform(0.001,0.2))
         unpack()
         top.update()
+
+        antiban()
+
         ## Time
         sectime = time.time() - start
         runtime = time.gmtime(time.time() - start)
@@ -425,10 +598,14 @@ def bot():
         lbl_gphr_right['text'] = str(gphr) + " "
         lbl_timeleft_right['text'] = time.strftime('%H:%M:%S', time.gmtime(((startgp/costph)*3600)))
         lbl_perc['text'] = str(round(((sectime / (sectime+((startgp/costph)*3600)))*100),2)) + '%' + " complete"
+        lbl_start['text'] = time.strftime("%H:%M:%S", time.gmtime(time.time()-start))
         # print("You have made " + str(profit) + "gp in " + time.strftime("%H:%M:%S", runtime))
         # print(" Thats " + str(gphr) + "gp p/hr!")
         # print("You will run out of gold in " + str(round((startgp/costph),1)) + " hours!")
 
+
+
+#341 249
 #Global variables and calibrating mouse pos
 lbl_status_right['text'] = "Initializing "
 x0,y0 = calibrate()
@@ -446,9 +623,12 @@ bankdep = (228,83,83),(227,82,82)
 price10 = 2090
 startgp = None #int(input("Enter starting gold in thousands: "))
 origgp = None
+username = pyautogui.prompt('Please enter your characters username for the login/break feature','Username',)
+password = pyautogui.prompt('Please enter your characters password for the login/break feature','Password',)
 
 while startgp == None:
     top.update()
+time.sleep(3)
 start = time.time()
 bot()
 
