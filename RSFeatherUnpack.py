@@ -320,9 +320,11 @@ def unpack():
     global startgp
     try:
         try:
-            while matchtooltip('img/open.png') == False:
+            increment = 0
+            while matchtooltip('img/open.png') == False and increment < 50:
                 humanmoveobj(imgmatchscreen('img/pack.png',region1=inventory,threshold=0.8))
                 time.sleep(uniform(0.08,0.2))
+                increment+=1
             humanclick()
             if randint(1,100)<=3:
                 humanmovexy(10,pyautogui.size()[1]*(uniform(0.15,0.85)),speed=2)
