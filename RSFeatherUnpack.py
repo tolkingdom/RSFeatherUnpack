@@ -82,20 +82,20 @@ def matchtooltip(image):
 #human right click
 def humanrclick():
     timer=(uniform(0.005,0.015))
-    time.sleep((timer2) - 0.00005)
+    time.sleep((timer/2) - 0.00005)
     pyautogui.mouseDown(button='right')
     time.sleep(timer)
     pyautogui.mouseUp(button='right')
-    time.sleep((timer2) - 0.00009)
+    time.sleep((timer/2) - 0.00009)
 
 #human click
 def humanclick():
     timer=(uniform(0.01,0.015))
-    time.sleep((timer2) - 0.0005)
+    time.sleep((timer/2) - 0.0005)
     pyautogui.mouseDown()
     time.sleep(timer)
     pyautogui.mouseUp()
-    #time.sleep((timer2) - 0.0009)
+    #time.sleep((timer/2) - 0.0009)
 
 
 #move to x,y coorinates
@@ -190,7 +190,7 @@ def randomcameramove(steps,honly='no'):
 
 #Returns how many packs are in your inventory
 def packcount():
-    return len(list(imgmatchscreenall('imgpack.png',region1=(inventory))))
+    return len(list(imgmatchscreenall('img/pack.png',region1=(inventory))))
 
 #Hops to the next world
 def worldhop():
@@ -268,7 +268,7 @@ def colormatch(color):
 
 #calibrate mouse
 def calibrate():
-    l,t,w,h = imgmatchscreen('imgrunelite.png')
+    l,t,w,h = imgmatchscreen('img/runelite.png')
     print ("calibrated to : " + str((l,t,w,h)))
     return l,t+27
 
@@ -280,18 +280,18 @@ def calibrate():
 
 def openstore():
     try:
-        while matchtooltip('imgtalk.png') == False:
+        while matchtooltip('img/talk.png') == False:
             x,y = colormatch((94,255,112))
             humanmovexy(x,y)
             time.sleep(uniform(0.05,0.1))
         humanrclick()
         time.sleep(uniform(0.08,0.4))
-        humanmoveobj(imgmatchscreen('imgtrade.png',region1=client,threshold=0.8),safe='yes')
+        humanmoveobj(imgmatchscreen('img/trade.png',region1=client,threshold=0.8),safe='yes')
         time.sleep(uniform(0.08,0.45))
         humanclick()
         time.sleep(uniform(0.08,0.38))
         increment=0
-        while len(list(imgmatchscreenall('imginstore.png',region1=(gamewindow),threshold=0.8))) == 0 and increment < 100:
+        while len(list(imgmatchscreenall('img/instore.png',region1=(gamewindow),threshold=0.8))) == 0 and increment < 100:
             time.sleep(0.1)
             increment+=1
     except:
@@ -300,15 +300,15 @@ def openstore():
 
 def buy():
     try:
-        humanmoveobj(imgmatchscreen('imgpack.png',region1=gamewindow,threshold=0.8))
+        humanmoveobj(imgmatchscreen('img/pack.png',region1=gamewindow,threshold=0.8))
         time.sleep(uniform(0.07,0.27))
         humanrclick()
         time.sleep(uniform(0.09,0.23))
-        humanmoveobj(imgmatchscreen('imgbuy10.png',region1=gamewindow,threshold=0.8),safe='yes')
+        humanmoveobj(imgmatchscreen('img/buy10.png',region1=gamewindow,threshold=0.8),safe='yes')
         time.sleep(uniform(0.08,0.29))
         humanclick()
         time.sleep(uniform(0.07,0.21))
-        humanmoveobj(imgmatchscreen('imgx.png',region1=gamewindow,threshold=0.8),safe='yes')
+        humanmoveobj(imgmatchscreen('img/x.png',region1=gamewindow,threshold=0.8),safe='yes')
         time.sleep(uniform(0.08,0.25))
         humanclick()
     except:
@@ -320,15 +320,15 @@ def unpack():
     global startgp
     try:
         try:
-            while matchtooltip('imgopen.png') == False:
-                humanmoveobj(imgmatchscreen('imgpack.png',region1=inventory,threshold=0.8))
+            while matchtooltip('img/open.png') == False:
+                humanmoveobj(imgmatchscreen('img/pack.png',region1=inventory,threshold=0.8))
                 time.sleep(uniform(0.08,0.2))
             humanclick()
             if randint(1,100)<=3:
                 humanmovexy(10,pyautogui.size()[1]*(uniform(0.15,0.85)),speed=2)
             time.sleep(uniform(0.4,11.5))
             increment=0
-            while len(list(imgmatchscreenall('imgpack.png',region1=(inventory),threshold=0.8))) != 0 and increment < 100:
+            while len(list(imgmatchscreenall('img/pack.png',region1=(inventory),threshold=0.8))) != 0 and increment < 100:
                 time.sleep(uniform(0.1,1))
                 x,y = colormatch((94,255,112))
                 humanmovexy(x,y)
@@ -347,13 +347,13 @@ def unpack():
 
 def checkout():
     try:
-        if len(imgmatchscreenall('imgnogp.png',region1=textnotif,threshold=0.95))>0:
+        if len(imgmatchscreenall('img/nogp.png',region1=textnotif,threshold=0.95))>0:
             lbl_status_right["text"] = "Out of gold! "
             top.update()
             print("Out of gold, quitting")
             time.sleep(2)
             quit()
-        elif len(imgmatchscreenall('imgoutofstock.png',region1=textnotif,threshold=0.95))>0:
+        elif len(imgmatchscreenall('img/outofstock.png',region1=textnotif,threshold=0.95))>0:
             lbl_status_right["text"] = "Out of Stock! "
             top.update()
             print("Out of stock, world hop")
@@ -368,16 +368,16 @@ def logout():
     try:
         lbl_status_right["text"] = "Logging Out "
         top.update()
-        humanmoveobj(imgmatchscreen('imglogout1.png',region1=client,threshold=0.8))
+        humanmoveobj(imgmatchscreen('img/logout1.png',region1=client,threshold=0.8))
         time.sleep(uniform(0.05,0.12))
         humanclick()
         time.sleep(uniform(0.05,0.12))
-        if len(imgmatchscreenall('imglogoutx.png',region1=client,threshold=0.8))>0:
-            humanmoveobj(imgmatchscreen('imglogoutx.png',region1=client,threshold=0.8))
+        if len(imgmatchscreenall('img/logoutx.png',region1=client,threshold=0.8))>0:
+            humanmoveobj(imgmatchscreen('img/logoutx.png',region1=client,threshold=0.8))
             time.sleep(uniform(0.05,0.12))
             humanclick()
             time.sleep(uniform(1.5,2))
-        humanmoveobj(imgmatchscreen('imglogouttext.png',region1=client,threshold=0.8))
+        humanmoveobj(imgmatchscreen('img/logouttext.png',region1=client,threshold=0.8))
         time.sleep(uniform(0.05,0.12))
         humanclick()
         time.sleep(uniform(0.05,0.12))
@@ -390,7 +390,7 @@ def login():
     lbl_status_right["text"] = "Logging Out "
     top.update()
     try:
-        if len(imgmatchscreenall('imgexistinguser.png',region1=client))>0:
+        if len(imgmatchscreenall('img/existinguser.png',region1=client))>0:
             time.sleep(uniform(1.0,1.5))
             pyautogui.press('enter')
             time.sleep(uniform(0.5,1))
@@ -401,9 +401,9 @@ def login():
             pyautogui.write(password, interval=uniform(0.06,0.4))
             time.sleep(uniform(0.5,1))
             pyautogui.press('enter')
-            while len(imgmatchscreenall("imgclicktoplay.png",region1=client))==0:
+            while len(imgmatchscreenall("img/clicktoplay.png",region1=client))==0:
                 time.sleep(0.1)
-            humanmoveobj(imgmatchscreen('imgclicktoplay.png',region1=client))
+            humanmoveobj(imgmatchscreen('img/clicktoplay.png',region1=client))
             time.sleep(uniform(0.1,0.3))
             humanclick()
             time.sleep(uniform(4.1,5.2))
@@ -425,6 +425,7 @@ def antiban():
             lbl_status_right["text"] = "Typing Message"
             top.update()
             pyautogui.press('tab')
+            time.sleep(uniform(0.1,0.3))
             pyautogui.write(msglist[randint(0,len(msglist)-1)], interval=uniform(0.04,0.1))
             time.sleep(uniform(0.2,1))
             pyautogui.press('enter')
@@ -523,7 +524,7 @@ lbl_profit_right = tk.Label(
 
 
 lbl_gphr_left = tk.Label(
-    frmleft,text = " GPhr:"
+    frmleft,text = " GP/hr:"
 )
 lbl_gphr_right = tk.Label(
     frmright,text = "XXXX GP "
@@ -592,17 +593,17 @@ def bot():
         ## Time
         sectime = time.time() - start
         runtime = time.gmtime(time.time() - start)
-        gphr = int((3600sectime)*profit)
-        costph = (gphr1000)*2
+        gphr = int((3600/sectime)*profit)
+        costph = (gphr/1000)*2
 
         lbl_profit_right['text'] = "%sgp " % profit
         lbl_gphr_right['text'] = str(gphr) + " "
-        lbl_timeleft_right['text'] = time.strftime('%H:%M:%S', time.gmtime(((startgpcostph)*3600)))
-        lbl_perc['text'] = str(round(((sectime  (sectime+((startgpcostph)*3600)))*100),2)) + '%' + " complete"
+        lbl_timeleft_right['text'] = time.strftime('%H:%M:%S', time.gmtime(((startgp/costph)*3600)))
+        lbl_perc['text'] = str(round(((sectime / (sectime+((startgp/costph)*3600)))*100),2)) + '%' + " complete"
         lbl_start['text'] = time.strftime("%H:%M:%S", time.gmtime(time.time()-start))
         # print("You have made " + str(profit) + "gp in " + time.strftime("%H:%M:%S", runtime))
-        # print(" Thats " + str(gphr) + "gp phr!")
-        # print("You will run out of gold in " + str(round((startgpcostph),1)) + " hours!")
+        # print(" Thats " + str(gphr) + "gp p/hr!")
+        # print("You will run out of gold in " + str(round((startgp/costph),1)) + " hours!")
 
 
 
@@ -624,8 +625,8 @@ bankdep = (228,83,83),(227,82,82)
 price10 = 2090
 startgp = None #int(input("Enter starting gold in thousands: "))
 origgp = None
-username = pyautogui.prompt('Please enter your characters username for the loginbreak feature','Username',)
-password = pyautogui.prompt('Please enter your characters password for the loginbreak feature','Password',)
+username = pyautogui.prompt('Please enter your characters username for the login/break feature','Username',)
+password = pyautogui.prompt('Please enter your characters password for the login/break feature','Password',)
 
 while startgp == None:
     top.update()
