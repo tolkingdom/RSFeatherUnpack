@@ -284,7 +284,7 @@ def openstore():
     try:
         while matchtooltip('img/talk.png') == False:
             x,y = colormatch((94,255,112))
-            humanmovexy(x,y)
+            humanmovexy(x,y,speed=2,sleep=0.004)
             time.sleep(uniform(0.35,0.5))
         humanrclick()
         time.sleep(uniform(0.08,0.4))
