@@ -300,7 +300,7 @@ def openstore():
         print("openstore() failed")
 
 def buy():
-    #try:
+    try:
         humanmoveobj(imgmatchscreen('img/pack.png',region1=gamewindow,threshold=0.8))
         time.sleep(uniform(0.07,0.27))
         humanrclick()
@@ -312,9 +312,9 @@ def buy():
         humanmoveobj(imgmatchscreen('img/x.png',region1=gamewindow,threshold=0.8),safe='yes')
         time.sleep(uniform(0.08,0.25))
         humanclick()
-    #except Exception as e:
-        #print(e)
-        #print("buy() failed")
+    except Exception as e:
+        print(e)
+        print("buy() failed")
 
 def unpack():
     global profit
