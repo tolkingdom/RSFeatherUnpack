@@ -367,8 +367,6 @@ def checkout():
 
 def logout():
     try:
-        lbl_status_right["text"] = "Logging Out "
-        top.update()
         humanmoveobj(imgmatchscreen('img/logout1.png',region1=client,threshold=0.8))
         time.sleep(uniform(0.05,0.12))
         humanclick()
@@ -388,8 +386,6 @@ def logout():
 
 
 def login():
-    lbl_status_right["text"] = "Logging In "
-    top.update()
     try:
         if len(imgmatchscreenall('img/existinguser.png',region1=client))>0:
             time.sleep(uniform(1.0,1.5))
@@ -450,8 +446,12 @@ def antiban():
             pyautogui.write(chatlist[chat], interval=uniform(0.04,0.1))
             time.sleep(uniform(0.2,1))
             pyautogui.press('enter')
+            lbl_status_right["text"] = "Logging In "
+            top.update()
             logout()
             time.sleep(uniform(720.17,1000.1))
+            lbl_status_right["text"] = "Logging In "
+            top.update()
             login()
     except:
         print("antibad failed")
