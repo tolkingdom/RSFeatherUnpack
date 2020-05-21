@@ -629,7 +629,7 @@ origgp = None
 username = lines[0]
 password = lines[1]
 
-
+time.sleep(3)
 login()
 while startgp == None:
     top.update()
