@@ -283,6 +283,7 @@ def openstore():
         while matchtooltip('img/talk.png') == False:
             x,y = colormatch((94,255,112))
             humanmovexy(x,y)
+            time.sleep(uniform(0.15,0.2))
         humanrclick()
         time.sleep(uniform(0.08,0.4))
         humanmoveobj(imgmatchscreen('img/trade.png',region1=client,threshold=0.8),safe='yes')
@@ -294,7 +295,6 @@ def openstore():
             time.sleep(0.1)
             increment+=1
     except:
-        print (e)
         print("openstore() failed")
 
 def buy():
@@ -311,7 +311,6 @@ def buy():
         time.sleep(uniform(0.08,0.25))
         humanclick()
     except:
-        print(e)
         print("buy() failed")
 
 def unpack():
@@ -339,7 +338,6 @@ def unpack():
             profit +=910
             startgp-=2.09
         except:
-            print(e)
             print("Ran out of gold, quitting")
             print("ran for " + str(time.time() - start))
             quit()
