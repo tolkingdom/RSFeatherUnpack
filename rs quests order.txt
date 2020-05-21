@@ -1,0 +1,27 @@
+Cooks assistant 1q 300cook              lum
+The Restless goast 1q 1125pray		lum
+-Rune Mystery 1q                        lum
+X Marks  1q 300xp                       lum
+Witch potion 1q 325 magic		dray
+Dorics Quest 1q 1300mining		fal
+Goblin deplomacy 5q 200 craft		fal
+Romeo and juliet 5q                     var
+
+
+
+
+
+bucket of milk
+egg
+pot of flour
+cadava berries
+6 clay
+4 copper
+2 iron
+burnt meat
+eye of newt
+onion
+3 goblin mail
+blue dye
+orange dye
+spade

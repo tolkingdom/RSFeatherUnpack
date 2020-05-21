@@ -16,6 +16,8 @@ from PIL import Image
 dirname1 = os.path.dirname(os.path.abspath(__file__))
 print(dirname1)
 os.chdir(dirname1)
+login_file = open('login.txt','r')
+lines = login_file.read().splitlines()
 
 msglist = ["this takes so long ",
         "i dont know if i like this method :",
@@ -386,7 +388,7 @@ def logout():
 
 
 def login():
-    lbl_status_right["text"] = "Logging Out "
+    lbl_status_right["text"] = "Logging In "
     top.update()
     try:
         if len(imgmatchscreenall('img/existinguser.png',region1=client))>0:
@@ -624,9 +626,11 @@ bankdep = (228,83,83),(227,82,82)
 price10 = 2090
 startgp = None #int(input("Enter starting gold in thousands: "))
 origgp = None
-username = pyautogui.prompt('Please enter your characters username for the login/break feature','Username',)
-password = pyautogui.prompt('Please enter your characters password for the login/break feature','Password',)
+username = lines[0]
+password = lines[1]
 
+
+login()
 while startgp == None:
     top.update()
 time.sleep(3)
