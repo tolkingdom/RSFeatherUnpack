@@ -106,32 +106,32 @@ def humanmovexy(x,y,safe='no',speed=1,sleep=0.0025):
         sleep = uniform(0.0010,0.0025)
         bezmouse.go((x,y),sleep=sleep,speed=speed)
         time.sleep(uniform(0.01,0.03))
-    except Exception as e:
-        print(e)
+    except:
         print("Move failed")
-        return
 
 
 
 #move to (x,y,w,h) object
 def humanmoveobj(obj, safe='no',speed=1,sleep=0.0025):
-    sleep = uniform(0.0018,0.0032)
-    x = randint(obj[0], obj[0]+obj[2]-1)
-    y = randint(obj[1], obj[1]+obj[3]-1)
-    time.sleep(uniform(0.01,0.02))
-    
-    if safe=='no':
-        #if randint(1,100)<=50:
-            #bezmouse.go((randint(client[0],client[2])),(randint(client[1],client[3])))
-        overshoot(x,y)
-        bezmouse.go((x,y),speed=speed,sleep=uniform(sleep-0.0005,sleep+0.0005))
-    elif safe=='yes':
-        bezmouse.go((x,y),deviation=(12),speed=speed,sleep=uniform(sleep-0.0005,sleep+0.0005))
-    time.sleep(uniform(0.01,0.03))
-    # x2,y2 = pyautogui.position()
-    # if  x+y != x2+y2:
-    #     pyautogui.moveTo(x,y,uniform(0.01,0.02),tween=pyautogui.linear)
-
+    try:
+        sleep = uniform(0.0018,0.0032)
+        x = randint(obj[0], obj[0]+obj[2]-1)
+        y = randint(obj[1], obj[1]+obj[3]-1)
+        time.sleep(uniform(0.01,0.02))
+        
+        if safe=='no':
+            #if randint(1,100)<=50:
+                #bezmouse.go((randint(client[0],client[2])),(randint(client[1],client[3])))
+            overshoot(x,y)
+            bezmouse.go((x,y),speed=speed,sleep=uniform(sleep-0.0005,sleep+0.0005))
+        elif safe=='yes':
+            bezmouse.go((x,y),deviation=(12),speed=speed,sleep=uniform(sleep-0.0005,sleep+0.0005))
+        time.sleep(uniform(0.01,0.03))
+        # x2,y2 = pyautogui.position()
+        # if  x+y != x2+y2:
+        #     pyautogui.moveTo(x,y,uniform(0.01,0.02),tween=pyautogui.linear)
+    except:
+        print("human move obj failed")
 
 
 #overshoots xy then brings it back to xy
@@ -262,8 +262,7 @@ def colormatch(color):
                 x=x+gamewindow[0]
                 y=y+gamewindow[1]
                 return x,y
-    except Exception as e:
-        print(e)
+    except:
         print("No color found")
         return None
 
@@ -295,7 +294,7 @@ def openstore():
         while len(list(imgmatchscreenall('img/instore.png',region1=(gamewindow),threshold=0.8))) == 0 and increment < 100:
             time.sleep(0.1)
             increment+=1
-    except Exception as e:
+    except:
         print (e)
         print("openstore() failed")
 
@@ -312,7 +311,7 @@ def buy():
         humanmoveobj(imgmatchscreen('img/x.png',region1=gamewindow,threshold=0.8),safe='yes')
         time.sleep(uniform(0.08,0.25))
         humanclick()
-    except Exception as e:
+    except:
         print(e)
         print("buy() failed")
 
@@ -338,16 +337,16 @@ def unpack():
                 return
             profit +=910
             startgp-=2.09
-        except Exception as e:
+        except:
             print(e)
             print("Ran out of gold, quitting")
             print("ran for " + str(time.time() - start))
             quit()
-    except Exception as e:
-        print(e)
+    except:
         print("unpack() failed")
 
 def checkout():
+    try:
         if len(imgmatchscreenall('img/nogp.png',region1=textnotif,threshold=0.95))>0:
             lbl_status_right["text"] = "Out of gold! "
             top.update()
@@ -360,6 +359,8 @@ def checkout():
             print("Out of stock, world hop")
             time.sleep(0.05)
             worldhop()
+    except:
+        print("checkout failed")
 
         
 
@@ -380,8 +381,7 @@ def logout():
         time.sleep(uniform(0.05,0.12))
         humanclick()
         time.sleep(uniform(0.05,0.12))
-    except Exception as e:
-        print(e)
+    except:
         pyautogui.press('esc')
         print("logout failed")
 
@@ -407,51 +407,51 @@ def login():
             time.sleep(uniform(0.1,0.3))
             humanclick()
             time.sleep(uniform(4.1,5.2))
-    except Exception as e:
-        print(e)
+    except:
         print("login failed")
 
 def antiban():
+    try:
+        #moves mouse offscreen to simulate multitasking
+        if randint(1,100)<=3:
+            lbl_status_right["text"] = "Multitask Sim"
+            top.update()
+            humanmovexy(10,pyautogui.size()[1]*(uniform(0.15,0.85)),speed=2)
+            print("simulating multitask")
+            time.sleep(uniform(0.5,10.5))
 
-    #moves mouse offscreen to simulate multitasking
-    if randint(1,100)<=3:
-        lbl_status_right["text"] = "Multitask Sim"
-        top.update()
-        humanmovexy(10,pyautogui.size()[1]*(uniform(0.15,0.85)),speed=2)
-        print("simulating multitask")
-        time.sleep(uniform(0.5,10.5))
+        #types into clan chat
+        if randint(1,1000)<=10:
+            lbl_status_right["text"] = "Typing Message"
+            top.update()
+            pyautogui.write(msglist[randint(0,len(msglist)-1)], interval=uniform(0.04,0.1))
+            time.sleep(uniform(0.2,1))
+            pyautogui.press('enter')
 
-    #types into clan chat
-    if randint(1,1000)<=10:
-        lbl_status_right["text"] = "Typing Message"
-        top.update()
-        pyautogui.write(msglist[randint(0,len(msglist)-1)], interval=uniform(0.04,0.1))
-        time.sleep(uniform(0.2,1))
-        pyautogui.press('enter')
+        #randomly afk's to simulate bathroom break + mouse move offscreen
+        if randint(1,1000)<=6:
+            lbl_status_right["text"] = "Medium Break"
+            top.update()
+            humanmovexy(10,pyautogui.size()[1]*(uniform(0.15,0.85)),speed=2)
+            print("Simulating bathroom break")
+            time.sleep(uniform(120.24,240.1))
+        
 
-    #randomly afk's to simulate bathroom break + mouse move offscreen
-    if randint(1,1000)<=6:
-        lbl_status_right["text"] = "Medium Break"
-        top.update()
-        humanmovexy(10,pyautogui.size()[1]*(uniform(0.15,0.85)),speed=2)
-        print("Simulating bathroom break")
-        time.sleep(uniform(120.24,240.1))
-    
-
-    #simulates longer 12-18ish minute break and types in clan chat
-    if randint(1,1000)<=1:
-        lbl_status_right["text"] = "Long break"
-        top.update()
-        print("Simulating food break")
-        chat=randint(0,5)
-        chatlist = ["brb food","ill be back in a sec","i need to go eat","gota do something","foods done","brb"]
-        pyautogui.write(chatlist[chat], interval=uniform(0.04,0.1))
-        time.sleep(uniform(0.2,1))
-        pyautogui.press('enter')
-        logout()
-        time.sleep(uniform(720.17,1000.1))
-        login()
-    
+        #simulates longer 12-18ish minute break and types in clan chat
+        if randint(1,1000)<=1:
+            lbl_status_right["text"] = "Long break"
+            top.update()
+            print("Simulating food break")
+            chat=randint(0,5)
+            chatlist = ["brb food","ill be back in a sec","i need to go eat","gota do something","foods done","brb"]
+            pyautogui.write(chatlist[chat], interval=uniform(0.04,0.1))
+            time.sleep(uniform(0.2,1))
+            pyautogui.press('enter')
+            logout()
+            time.sleep(uniform(720.17,1000.1))
+            login()
+    except:
+        print("antibad failed")
 
 
 
