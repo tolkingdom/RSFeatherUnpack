@@ -293,7 +293,7 @@ def openstore():
         humanclick()
         time.sleep(uniform(0.08,0.38))
         increment=0
-        while len(list(imgmatchscreenall('img/instore.png',region1=(gamewindow),threshold=0.8))) == 0 and increment < 100:
+        while len(list(imgmatchscreenall('img/instore.png',region1=(gamewindow),threshold=0.8))) == 0 and increment < 30:
             time.sleep(0.1)
             increment+=1
     except:
@@ -301,6 +301,8 @@ def openstore():
 
 def buy():
     try:
+        if len(list(imgmatchscreenall('img/instore.png',region1=(gamewindow),threshold=0.8))) == 0:
+            return
         humanmoveobj(imgmatchscreen('img/pack.png',region1=gamewindow,threshold=0.8))
         time.sleep(uniform(0.07,0.27))
         humanrclick()
@@ -320,6 +322,8 @@ def unpack():
     global startgp
     try:
         try:
+            if len(list(imgmatchscreenall('img/pack.png',region1=(inventory),threshold=0.8))) == 0:
+                return
             increment = 0
             while matchtooltip('img/open.png') == False and increment < 50:
                 humanmoveobj(imgmatchscreen('img/pack.png',region1=inventory,threshold=0.8))
@@ -423,7 +427,7 @@ def antiban():
             top.update()
             pyautogui.press('tab')
             time.sleep(uniform(0.1,0.3))
-            pyautogui.write(msglist[randint(0,len(msglist)-1)], interval=uniform(0.04,0.1))
+            pyautogui.write(msglist[randint(0,len(msglist)-1)], interval=uniform(0.04,0.2))
             time.sleep(uniform(0.2,1))
             pyautogui.press('enter')
 
@@ -442,8 +446,10 @@ def antiban():
             top.update()
             print("Simulating food break")
             chat=randint(0,5)
+            pyautogui.press('tab')
+            time.sleep(uniform(0.1,0.2))
             chatlist = ["brb food","ill be back in a sec","i need to go eat","gota do something","foods done","brb"]
-            pyautogui.write(chatlist[chat], interval=uniform(0.04,0.1))
+            pyautogui.write(chatlist[chat], interval=uniform(0.04,0.2))
             time.sleep(uniform(0.2,1))
             pyautogui.press('enter')
             lbl_status_right["text"] = "Logging In "
