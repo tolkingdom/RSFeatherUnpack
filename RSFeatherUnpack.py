@@ -19,7 +19,8 @@ os.chdir(dirname1)
 login_file = open('login.txt','r')
 lines = login_file.read().splitlines()
 
-msglist = ["this takes so long ",
+msglist = [
+        "this takes so long ",
         "i dont know if i like this method :",
         "is anyone at 20mil gold yet? ",
         "hey get on discord ",
@@ -69,7 +70,27 @@ msglist = ["this takes so long ",
         "have you seen the movie the machinist? ",
         "whats the plan tomorrow?",
         "idk ",
-        "i dont kno "]
+        "i dont kno ",
+        "dude these ramdoms suck hahaa",
+        "no",
+        "LOL did you hear that?",
+        "this discord is interesting xD",
+        "feathers feathers feathers huh",
+        "feathers are hard to sell tho",
+        "feathers are pretty good muney",
+        "just ignore random events",
+        "random evens are waste of time , ignore",
+        "yes",
+        "ok",
+        "no",
+        "what? lol",
+        "you make no sense man",
+        "kinda random but ok LOL",
+        "im playing 2 games at once LOL",
+        "i play this and minecraft too",
+        "i can -play both games at the same time",
+        "ok cool",
+        ]
 
 
 
@@ -357,7 +378,7 @@ def checkout():
             top.update()
             print("Out of gold, quitting")
             time.sleep(2)
-            quit()
+            os._exit(1)
         elif len(imgmatchscreenall('img/outofstock.png',region1=textnotif,threshold=0.95))>0:
             lbl_status_right["text"] = "Out of Stock! "
             top.update()
